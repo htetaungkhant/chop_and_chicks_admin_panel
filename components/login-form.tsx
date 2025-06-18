@@ -14,16 +14,20 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Loader2 } from "lucide-react";
 
 export function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
+
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -32,6 +36,7 @@ export function LoginForm() {
 
     if (error) {
       setError(error.message);
+      setLoading(false);
     } else {
       router.push("/");
       router.refresh();
@@ -59,6 +64,7 @@ export function LoginForm() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
                 />
               </div>
               <div className="grid gap-2">
@@ -69,10 +75,12 @@ export function LoginForm() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
                 />
               </div>
               {error && <p className="text-red-500 text-sm">{error}</p>}
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Login
               </Button>
             </div>
