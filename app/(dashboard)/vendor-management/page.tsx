@@ -1,18 +1,15 @@
 import { cookies } from "next/headers";
 
 import { createClient } from "@/lib/supabase/server";
-import { VendorTable } from "./vendor-table";
-import { VendorToolbar } from "./vendor-toolbar";
+import { VendorListView } from "@/components/vendor-management/vendor-list-view";
 
-export default async function VendorManagementPage(
-  props: {
-    searchParams?: Promise<{
-      page?: string;
-      search?: string;
-      status?: string;
-    }>;
-  }
-) {
+export default async function VendorManagementPage(props: {
+  searchParams?: Promise<{
+    page?: string;
+    search?: string;
+    status?: string;
+  }>;
+}) {
   const searchParams = await props.searchParams;
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
@@ -34,23 +31,22 @@ export default async function VendorManagementPage(
     }
   );
 
-  if (error) {
-    console.error("Error fetching vendors:", error);
+  if (error || response?.status === "error") {
+    console.error(
+      "Error fetching vendors:",
+      error || response?.message || "Failed to fetch vendors. Please try again."
+    );
   }
 
   const vendors = response?.data?.slice(0, limit) || [];
   const hasNextPage = (response?.data?.length || 0) > limit;
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-3xl font-bold">Vendor List</h1>
-      <VendorToolbar />
-      <VendorTable
-        vendors={vendors}
-        currentPage={currentPage}
-        hasNextPage={hasNextPage}
-        limit={limit}
-      />
-    </div>
+    <VendorListView
+      vendors={vendors}
+      currentPage={currentPage}
+      hasNextPage={hasNextPage}
+      limit={limit}
+    />
   );
 }

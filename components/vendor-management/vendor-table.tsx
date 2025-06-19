@@ -2,6 +2,7 @@
 
 import { Info } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 import {
   Table,
@@ -70,12 +71,12 @@ export function VendorTable({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>S.no.</TableHead>
-              <TableHead>Vendor Name</TableHead>
-              <TableHead>Shop Name</TableHead>
-              <TableHead>Phone No</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-center">Action</TableHead>
+              <TableHead className="font-bold">S.no.</TableHead>
+              <TableHead className="font-bold">Vendor Name</TableHead>
+              <TableHead className="font-bold">Shop Name</TableHead>
+              <TableHead className="font-bold">Phone No</TableHead>
+              <TableHead className="font-bold">Status</TableHead>
+              <TableHead className="font-bold text-center">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -96,9 +97,17 @@ export function VendorTable({
                     </Badge>
                   </TableCell>
                   <TableCell className="text-center">
-                    <button className="text-gray-200 hover:text-white cursor-pointer">
-                      <Info className="h-5 w-5 bg-red-500 rounded-full" />
-                    </button>
+                    <Link
+                      href={`/vendor-management/${vendor.id}${
+                        searchParams.size > 0
+                          ? `?${searchParams.toString()}`
+                          : ""
+                      }`}
+                    >
+                      <button className="text-gray-200 hover:text-white cursor-pointer">
+                        <Info className="h-5 w-5 bg-red-500 rounded-full" />
+                      </button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))

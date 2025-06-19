@@ -1,6 +1,8 @@
 "use client";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useDebouncedCallback } from "use-debounce";
+
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -9,7 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useDebouncedCallback } from "use-debounce";
 
 export function VendorToolbar() {
   const router = useRouter();
@@ -62,4 +63,4 @@ export function VendorToolbar() {
       </Select>
     </div>
   );
-} 
+}
