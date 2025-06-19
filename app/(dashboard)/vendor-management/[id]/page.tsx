@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
@@ -82,6 +82,7 @@ export default function VendorDetailsPage() {
   );
   const [isLoading, setIsLoading] = useState(vendor === undefined);
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
+  const [isBlockDialogOpen, setIsBlockDialogOpen] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
 
   const statusVariant = (status: string) => {
@@ -149,6 +150,7 @@ export default function VendorDetailsPage() {
       prev ? { ...prev, approval_status: "blocked" } : null
     );
     toast.success("Vendor has been blocked successfully.");
+    setIsBlockDialogOpen(false);
   };
 
   const handleReject = async () => {
@@ -258,7 +260,6 @@ export default function VendorDetailsPage() {
 
   return (
     <>
-      <Toaster richColors />
       <div className="space-y-6">
         <Link
           href={`/vendor-management${
@@ -279,7 +280,7 @@ export default function VendorDetailsPage() {
           <div className="flex items-center gap-4">
             {vendor.approval_status === "approved" && (
               <Button
-                onClick={handleBlock}
+                onClick={() => setIsBlockDialogOpen(true)}
                 variant="destructive"
                 className="bg-red-600 hover:bg-red-700 text-white cursor-pointer"
               >
@@ -604,6 +605,24 @@ export default function VendorDetailsPage() {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleReject}>Submit</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={isBlockDialogOpen} onOpenChange={setIsBlockDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you sure you want to block this vendor?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This will prevent the vendor from accessing their account. This
+              action can be undone later.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleBlock}>Confirm</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
