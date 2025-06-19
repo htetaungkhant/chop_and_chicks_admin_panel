@@ -46,10 +46,10 @@ export function VendorToolbar() {
         placeholder="Search by Vendor Name, Shop Name & Phone number..."
         defaultValue={initialSearch}
         onChange={(e) => handleSearch(e.target.value)}
-        className="max-w-sm"
+        className="max-w-sm bg-gray-50"
       />
       <Select onValueChange={handleStatusChange} defaultValue={initialStatus}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[180px] bg-gray-50">
           <SelectValue placeholder="Filter by status" />
         </SelectTrigger>
         <SelectContent>

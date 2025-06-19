@@ -75,7 +75,7 @@ export function VendorTable({
               <TableHead>Shop Name</TableHead>
               <TableHead>Phone No</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Action</TableHead>
+              <TableHead className="text-center">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -95,9 +95,9 @@ export function VendorTable({
                       {vendor.approval_status}
                     </Badge>
                   </TableCell>
-                  <TableCell>
-                    <button className="text-gray-500 hover:text-gray-700">
-                      <Info className="h-5 w-5" />
+                  <TableCell className="text-center">
+                    <button className="text-gray-200 hover:text-white cursor-pointer">
+                      <Info className="h-5 w-5 bg-red-500 rounded-full" />
                     </button>
                   </TableCell>
                 </TableRow>
@@ -118,9 +118,7 @@ export function VendorTable({
             <PaginationContent>
               {currentPage > 1 && (
                 <PaginationItem>
-                  <PaginationPrevious
-                    href={createPageURL(currentPage - 1)}
-                  />
+                  <PaginationPrevious href={createPageURL(currentPage - 1)} />
                 </PaginationItem>
               )}
               <PaginationItem>
@@ -130,9 +128,7 @@ export function VendorTable({
               </PaginationItem>
               {hasNextPage && (
                 <PaginationItem>
-                  <PaginationNext
-                    href={createPageURL(currentPage + 1)}
-                  />
+                  <PaginationNext href={createPageURL(currentPage + 1)} />
                 </PaginationItem>
               )}
             </PaginationContent>
