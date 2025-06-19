@@ -576,7 +576,9 @@ export default function VendorDetailsPage() {
                     {vendor.additional_comments}
                   </InfoField>
                   <InfoField label="Vendor Signature">
-                    {vendor.vendor_signature}
+                    {vendor.vendor_signature && vendor.vendor_signature !== "{}"
+                      ? vendor.vendor_signature
+                      : "No signature available"}
                   </InfoField>
                 </div>
               </TabsContent>
