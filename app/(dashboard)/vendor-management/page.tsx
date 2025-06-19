@@ -4,16 +4,17 @@ import { createClient } from "@/lib/supabase/server";
 import { VendorTable } from "./vendor-table";
 import { VendorToolbar } from "./vendor-toolbar";
 
-export default async function VendorManagementPage({
-  searchParams,
-}: {
-  searchParams?: {
-    page?: string;
-    search?: string;
-    status?: string;
-  };
-}) {
-  const cookieStore = cookies();
+export default async function VendorManagementPage(
+  props: {
+    searchParams?: Promise<{
+      page?: string;
+      search?: string;
+      status?: string;
+    }>;
+  }
+) {
+  const searchParams = await props.searchParams;
+  const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
 
   const currentPage = Number(searchParams?.page) || 1;
