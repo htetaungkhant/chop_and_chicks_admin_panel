@@ -16,12 +16,12 @@ export default async function VendorManagementPage({
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
-  const currentPage = Number((await searchParams)?.page) || 1;
+  const currentPage = Number(searchParams?.page) || 1;
   const limit = 10;
   const offset = (currentPage - 1) * limit;
-  const searchText = (await searchParams)?.search || "";
+  const searchText = searchParams?.search || "";
   const vendorStatus =
-    (await searchParams)?.status === "all" ? null : (await searchParams)?.status || null;
+    searchParams?.status === "all" ? null : searchParams?.status || null;
 
   const { data: response, error } = await supabase.rpc(
     "get_all_vendors_admin",
