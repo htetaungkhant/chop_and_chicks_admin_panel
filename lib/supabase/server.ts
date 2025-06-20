@@ -8,7 +8,7 @@ export function createClient(cookieStore: Awaited<ReturnType<typeof cookies>>) {
     {
       cookies: {
         async getAll() {
-          return (await cookieStore).getAll();
+          return cookieStore?.getAll();
         },
         async setAll(
           cookiesToSet: {
@@ -19,7 +19,7 @@ export function createClient(cookieStore: Awaited<ReturnType<typeof cookies>>) {
         ) {
           try {
             for (const { name, value, options } of cookiesToSet) {
-              (await cookieStore).set(name, value, options);
+              cookieStore?.set(name, value, options);
             }
           } catch {
             // The `setAll` method was called from a Server Component.
