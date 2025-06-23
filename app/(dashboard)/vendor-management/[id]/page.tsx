@@ -83,6 +83,7 @@ export default function VendorDetailsPage() {
   const [isLoading, setIsLoading] = useState(vendor === undefined);
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
   const [isBlockDialogOpen, setIsBlockDialogOpen] = useState(false);
+  const [isUnblockDialogOpen, setIsUnblockDialogOpen] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
 
   const statusVariant = (status: string) => {
@@ -124,6 +125,33 @@ export default function VendorDetailsPage() {
       prev ? { ...prev, approval_status: "approved" } : null
     );
     toast.success("Vendor has been approved successfully.");
+  };
+
+  const handleUnblock = async () => {
+    const supabase = createClient();
+    const { data, error } = await supabase.rpc("approve_reject_vendor_admin", {
+      p_approval_status: "approved",
+      p_reject_reason: null,
+      p_vendor_id: vendorId,
+    });
+
+    if (error || data?.status === "error") {
+      toast.error(
+        error?.message ||
+          data?.message ||
+          "Failed to unblock vendor. Please try again."
+      );
+      console.error(
+        "Error unblocking vendor:",
+        error || data?.message || "Failed to unblock vendor. Please try again."
+      );
+      return;
+    }
+    setVendor((prev) =>
+      prev ? { ...prev, approval_status: "approved" } : null
+    );
+    toast.success("Vendor has been unblocked successfully.");
+    setIsUnblockDialogOpen(false);
   };
 
   const handleBlock = async () => {
@@ -285,6 +313,15 @@ export default function VendorDetailsPage() {
                 className="bg-red-600 hover:bg-red-700 text-white cursor-pointer"
               >
                 Block
+              </Button>
+            )}
+            {vendor.approval_status === "blocked" && (
+              <Button
+                onClick={() => setIsUnblockDialogOpen(true)}
+                variant="destructive"
+                className="bg-amber-500 hover:bg-amber-600 text-white cursor-pointer"
+              >
+                Unblock
               </Button>
             )}
             {vendor.approval_status !== "pending" && (
@@ -625,6 +662,29 @@ export default function VendorDetailsPage() {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleBlock}>Confirm</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog
+        open={isUnblockDialogOpen}
+        onOpenChange={setIsUnblockDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Are you sure you want to unblock this vendor?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This will allow the vendor to access their account. This action
+              can be undone later.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleUnblock}>
+              Confirm
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
