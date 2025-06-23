@@ -130,7 +130,7 @@ export default function VendorDetailsPage() {
   const handleUnblock = async () => {
     const supabase = createClient();
     const { data, error } = await supabase.rpc("approve_reject_vendor_admin", {
-      p_approval_status: "approved",
+      p_approval_status: "pending",
       p_reject_reason: null,
       p_vendor_id: vendorId,
     });
@@ -148,7 +148,7 @@ export default function VendorDetailsPage() {
       return;
     }
     setVendor((prev) =>
-      prev ? { ...prev, approval_status: "approved" } : null
+      prev ? { ...prev, approval_status: "pending" } : null
     );
     toast.success("Vendor has been unblocked successfully.");
     setIsUnblockDialogOpen(false);
