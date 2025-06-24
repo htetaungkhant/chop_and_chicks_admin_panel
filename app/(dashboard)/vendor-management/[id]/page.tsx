@@ -399,16 +399,20 @@ export default function VendorDetailsPage() {
                   </InfoField>
                   <InfoField label="Email">{vendor.email}</InfoField>
                   <InfoField label="Contact Number">
-                    <div className="flex items-center gap-2">
-                      <span>🇮🇳</span>
-                      <span>{vendor.contact_number?.trim()}</span>
-                    </div>
+                    {vendor.contact_number?.trim() && (
+                      <div className="flex items-center gap-2">
+                        <span>🇮🇳</span>
+                        <span>{vendor.contact_number?.trim()}</span>
+                      </div>
+                    )}
                   </InfoField>
                   <InfoField label="Alternate Contact Number">
-                    <div className="flex items-center gap-2">
-                      <span>🇮🇳</span>
-                      <span>{vendor.alternate_contact_number?.trim()}</span>
-                    </div>
+                    {vendor.alternate_contact_number?.trim() && (
+                      <div className="flex items-center gap-2">
+                        <span>🇮🇳</span>
+                        <span>{vendor.alternate_contact_number?.trim()}</span>
+                      </div>
+                    )}
                   </InfoField>
                   <div>
                     <p className="text-sm font-medium text-gray-700 mb-1.5">
