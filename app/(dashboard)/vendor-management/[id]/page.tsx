@@ -379,7 +379,7 @@ export default function VendorDetailsPage() {
               ADDITIONAL INFORMATION
             </TabsTrigger>
           </TabsList>
-          <Card className="mt-4">
+          <Card className="mt-4 p-0 overflow-hidden">
             <CardContent className="p-0">
               <TabsContent value="vendor-info" className="p-6 bg-gray-50">
                 <div className="space-y-8">
