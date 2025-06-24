@@ -401,13 +401,13 @@ export default function VendorDetailsPage() {
                   <InfoField label="Contact Number">
                     <div className="flex items-center gap-2">
                       <span>🇮🇳</span>
-                      <span>{vendor.contact_number}</span>
+                      <span>{vendor.contact_number?.trim()}</span>
                     </div>
                   </InfoField>
                   <InfoField label="Alternate Contact Number">
                     <div className="flex items-center gap-2">
                       <span>🇮🇳</span>
-                      <span>{vendor.alternate_contact_number}</span>
+                      <span>{vendor.alternate_contact_number?.trim()}</span>
                     </div>
                   </InfoField>
                   <div>
